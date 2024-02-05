@@ -1,6 +1,26 @@
 import Link from "next/link";
 import Layout from "../src/layouts/Layout";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 const Blog = () => {
+   const [blogPosts, setBlogPosts] = useState([]);
+   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}/user/api/blog/`);
+        setBlogPosts(response.data);
+            console.log(response.data);
+      } catch (error) {
+        console.error('Error fetching blog posts:', error);
+      }
+    };
+
+    fetchBlogPosts();
+  }, []);
+
   return (
     <Layout>
       {/* Section Started Heading */}
@@ -32,6 +52,7 @@ const Blog = () => {
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-8">
               {/* Blog Items */}
               <div className="articles-container">
+              {blogPosts.map((post) => (
                 <div
                   className="archive-item scrolla-element-anim-1 scroll-animate"
                   data-animate="active"
@@ -40,83 +61,7 @@ const Blog = () => {
                     <Link legacyBehavior href="/blog-single">
                       <a>
                         <img
-                          src="assets/images/single7.jpg"
-                          alt="The Main Thing For The Designer"
-                          loading="lazy"
-                        />
-                      </a>
-                    </Link>
-                  </div>
-                  <div className="desc">
-                    <div className="category lui-subtitle">
-                      <span>October 31, 2022</span>
-                    </div>
-                    <h5 className="lui-title">
-                      <Link legacyBehavior href="/blog-single">
-                        <a>The Main Thing For The Designer</a>
-                      </Link>
-                    </h5>
-                    <div className="lui-text">
-                      <p>
-                        Vivamus interdum suscipit lacus. Nunc ultrices accumsan
-                        mattis. Aliquam vel sem vel velit efficitur malesuada.
-                        Donec arcu lacus, ornare eget…{" "}
-                      </p>
-                      <div className="readmore">
-                        <Link legacyBehavior href="/blog-single">
-                          <a className="lnk">Read more</a>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="archive-item scrolla-element-anim-1 scroll-animate"
-                  data-animate="active"
-                >
-                  <div className="image">
-                    <Link legacyBehavior href="/blog-single">
-                      <a>
-                        <img
-                          src="assets/images/blog-4-scaled-1.jpg"
-                          alt="Follow Your Own Design Process"
-                          loading="lazy"
-                        />
-                      </a>
-                    </Link>
-                  </div>
-                  <div className="desc">
-                    <div className="category lui-subtitle">
-                      <span>October 31, 2022</span>
-                    </div>
-                    <h5 className="lui-title">
-                      <Link legacyBehavior href="/blog-single">
-                        <a>Follow Your Own Design Process</a>
-                      </Link>
-                    </h5>
-                    <div className="lui-text">
-                      <p>
-                        Vivamus interdum suscipit lacus. Nunc ultrices accumsan
-                        mattis. Aliquam vel sem vel velit efficitur malesuada.
-                        Donec arcu lacus, ornare eget…{" "}
-                      </p>
-                      <div className="readmore">
-                        <Link legacyBehavior href="/blog-single">
-                          <a className="lnk">Read more</a>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="archive-item scrolla-element-anim-1 scroll-animate"
-                  data-animate="active"
-                >
-                  <div className="image">
-                    <Link legacyBehavior href="/blog-single">
-                      <a>
-                        <img
-                          src="assets/images/blog-2.jpg"
+                          src={post.image}
                           alt="Usability Secrets to Create Better Interfaces"
                           loading="lazy"
                         />
@@ -129,14 +74,14 @@ const Blog = () => {
                     </div>
                     <h5 className="lui-title">
                       <Link legacyBehavior href="/blog-single">
-                        <a>Usability Secrets to Create Better Interfaces</a>
+                        <a>{post.title}</a>
                       </Link>
                     </h5>
                     <div className="lui-text">
                       <p>
-                        Vivamus interdum suscipit lacus. Nunc ultrices accumsan
-                        mattis. Aliquam vel sem vel velit efficitur malesuada.
-                        Donec arcu lacus, ornare eget…{" "}
+                        {post.description.length > 50
+                          ? `${post.description.slice(0, 200)}...`
+                          : post.description}
                       </p>
                       <div className="readmore">
                         <Link legacyBehavior href="/blog-single">
@@ -146,6 +91,7 @@ const Blog = () => {
                     </div>
                   </div>
                 </div>
+              ))};
               </div>
               <div className="pager">
                 <span className="page-numbers current">1</span>
@@ -190,91 +136,15 @@ const Blog = () => {
                         <div className="wp-block-group__inner-container">
                           <h2>Recent Posts</h2>
                           <ul className="wp-block-latest-posts__list wp-block-latest-posts">
+                          {blogPosts.map((post) => (
                             <li>
                               <Link legacyBehavior href="/blog-single">
                                 <a className="wp-block-latest-posts__post-title">
-                                  The Main Thing For The Designer
+                                  {post.title}
                                 </a>
                               </Link>
                             </li>
-                            <li>
-                              <Link legacyBehavior href="/blog-single">
-                                <a className="wp-block-latest-posts__post-title">
-                                  Follow Your Own Design Process
-                                </a>
-                              </Link>
-                            </li>
-                            <li>
-                              <Link legacyBehavior href="/blog-single">
-                                <a className="wp-block-latest-posts__post-title">
-                                  Usability Secrets to Create Better Interfaces
-                                </a>
-                              </Link>
-                            </li>
-                            <li>
-                              <Link legacyBehavior href="/blog-single">
-                                <a className="wp-block-latest-posts__post-title">
-                                  Three Ways To Level Up Your Photography
-                                </a>
-                              </Link>
-                            </li>
-                            <li>
-                              <Link legacyBehavior href="/blog-single">
-                                <a className="wp-block-latest-posts__post-title">
-                                  10 Useful Tips to Improve Your Skills
-                                </a>
-                              </Link>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </section>
-                    <section className="widget widget_block">
-                      <div className="wp-block-group">
-                        <div className="wp-block-group__inner-container">
-                          <h2>Recent Comments</h2>
-                          <ul className="wp-block-latest-comments">
-                            <li className="wp-block-latest-comments__comment">
-                              <span className="wp-block-latest-comments__comment-author">
-                                Ryan Berg
-                              </span>{" "}
-                              on{" "}
-                              <Link legacyBehavior href="/blog-single">
-                                <a className="wp-block-latest-comments__comment-link">
-                                  How to Become a Successful UI/UX Designer
-                                </a>
-                              </Link>
-                            </li>
-                            <li className="wp-block-latest-comments__comment">
-                              <span className="wp-block-latest-comments__comment-author">
-                                Robert Brown
-                              </span>{" "}
-                              on{" "}
-                              <Link legacyBehavior href="/blog-single">
-                                <a className="wp-block-latest-comments__comment-link">
-                                  How to Become a Successful UI/UX Designer
-                                </a>
-                              </Link>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </section>
-                    <section className="widget widget_block">
-                      <div className="wp-block-group">
-                        <div className="wp-block-group__inner-container">
-                          <h2>Archives</h2>
-                          <ul className="wp-block-archives-list wp-block-archives">
-                            <li>
-                              <Link legacyBehavior href="/blog-single">
-                                <a>October 2022</a>
-                              </Link>
-                            </li>
-                            <li>
-                              <Link legacyBehavior href="/blog-single">
-                                <a>November 2021</a>
-                              </Link>
-                            </li>
+                          ))}
                           </ul>
                         </div>
                       </div>

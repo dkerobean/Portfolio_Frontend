@@ -898,7 +898,8 @@ const Index = () => {
                           <div className="terms-label">
                             * Accept the terms and conditions.
                           </div>
-                          <button type="submit" className="btn">Send Message</button>
+                          <button type="submit" className="btn">
+                          Send Message</button>
                         </div>
                       </div>
                     </form>
