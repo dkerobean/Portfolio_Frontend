@@ -282,7 +282,15 @@ const Header = () => {
                             className="scrolla-element-anim-1"
                             title="behance"
                           >
-                            <i className="fab fa-instagra" />
+                            <i className="fab fa-instagram" />
+                          </a>
+                          <a
+                            href="http://behance.com"
+                            target="blank"
+                            className="scrolla-element-anim-1"
+                            title="behance"
+                          >
+                            <i className="fab fa-linkedin" />
                           </a>
                         </div>
                         <div className="v-line-block">
