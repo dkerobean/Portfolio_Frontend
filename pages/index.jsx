@@ -15,6 +15,8 @@ const PortfolioIsotope = dynamic(
     ssr: false,
   }
 );
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -22,6 +24,46 @@ const Index = () => {
   const [profile, setProfile] = useState([]);
   const [services, setServices] = useState([]);
   const [contact, setContact] = useState([]);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+
+  // submit form data
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(`${backendUrl}/user/api/contact-me/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      console.log("here is the form data", formData);
+
+      if (response.ok) {
+        // Success, show success message
+        toast.success(`Hi ${formData.name}! Your message has been sent successfully. I'll get back to you soon! 🚀`);
+      } else {
+        // Handle error response
+        toast.error('Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('An error occurred. Please try again later.');
+    }
+  }
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -55,9 +97,6 @@ const Index = () => {
     fetchServices();
     fetchContact();
   }, []);
-
-  console.log('here are services', services);
-
 
 
   return (
@@ -1284,13 +1323,13 @@ const Index = () => {
                     }}
                   />
                   <div className="contacts-form">
-                    <form onSubmit={(e) => e.preventDefault()} id="cform">
+                    <form onSubmit={handleSubmit} id="cform">
                       <div className="row">
                         <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                           <div className="group">
                             <label>
                               Your Full Name <b>*</b>
-                              <input type="text" name="name" />
+                              <input type="text" name="name" value={formData.name} onChange={handleInputChange} />
                             </label>
                           </div>
                         </div>
@@ -1298,7 +1337,7 @@ const Index = () => {
                           <div className="group">
                             <label>
                               Your Email Address <b>*</b>
-                              <input type="email" name="email" />
+                              <input type="email" name="email" value={formData.email} onChange={handleInputChange} />
                             </label>
                           </div>
                         </div>
@@ -1306,7 +1345,7 @@ const Index = () => {
                           <div className="group">
                             <label>
                               Your Subject <b>*</b>
-                              <input type="text" name="subject" />
+                              <input type="text" name="subject" value={formData.subject} onChange={handleInputChange} />
                             </label>
                           </div>
                         </div>
@@ -1314,7 +1353,7 @@ const Index = () => {
                           <div className="group">
                             <label>
                               Your Message <b>*</b>
-                              <textarea name="message" defaultValue={""} />
+                              <textarea name="message" value={formData.message} onChange={handleInputChange} />
                             </label>
                           </div>
                         </div>
@@ -1322,16 +1361,11 @@ const Index = () => {
                           <div className="terms-label">
                             * Accept the terms and conditions.
                           </div>
-                          <a
-                            href="#"
-                            className="btn"
-                            onclick="$('#cform').submit(); return false;"
-                          >
-                            <span>Send Message</span>
-                          </a>
+                          <button type="submit" className="btn">Send Message</button>
                         </div>
                       </div>
                     </form>
+                    <ToastContainer />
                     <div className="alert-success" style={{ display: "none" }}>
                       <p>Thanks, your message is sent successfully.</p>
                     </div>

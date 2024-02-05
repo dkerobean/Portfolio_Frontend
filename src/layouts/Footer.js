@@ -20,7 +20,6 @@ const Footer = () => {
     fetchData();
   }, []);
 
-  console.log('contactInfo:', contactInfo);
 
   return (
     <div className="footer">
