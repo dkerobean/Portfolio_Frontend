@@ -13,7 +13,7 @@ const App = ({ Component, pageProps }) => {
   return (
     <Fragment>
       <Head>
-        <title>Luique - Personal Portfolio React NextJS Template</title>
+        <title>DeekieLabs</title>
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -82,8 +82,7 @@ const App = ({ Component, pageProps }) => {
           media="all"
         />
         {/* Favicon */}
-        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-        <link rel="icon" href="favicon.ico" type="image/x-icon" />
+       
       </Head>
       {loader && <PreLoader />}
       <Component {...pageProps} />
