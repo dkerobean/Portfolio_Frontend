@@ -706,7 +706,7 @@ const Index = () => {
                   data-animate="active"
                 >
                   <div className="image">
-                    <Link legacyBehavior href="/blog-single">
+                     <Link legacyBehavior href={`/blog-single?id=${blog.id}`}>
                       <a>
                         <img
                           decoding="async"
@@ -719,10 +719,10 @@ const Index = () => {
                   <div className="desc">
                     <div className="category lui-subtitle">
                     <span>{blog.category.name}</span>
-                      
+
                     </div>
                     <h5 className="lui-title">
-                      <Link legacyBehavior href="/blog-single">
+                       <Link legacyBehavior href={`/blog-single?id=${blog.id}`}>
                         <a>{blog.title}</a>
                       </Link>
                     </h5>
@@ -733,7 +733,7 @@ const Index = () => {
                           : blog.description}
                       </p>
                       <div className="readmore">
-                        <Link legacyBehavior href="/blog-single">
+                         <Link legacyBehavior href={`/blog-single?id=${blog.id}`}>
                           <a className="lnk">Read more</a>
                         </Link>
                       </div>

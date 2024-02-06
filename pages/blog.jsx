@@ -58,7 +58,7 @@ const Blog = () => {
                   data-animate="active"
                 >
                   <div className="image">
-                    <Link legacyBehavior href={`/blog-single?blog_id=${post.id}`}>
+                    <Link legacyBehavior href={`/blog-single?id=${post.id}`}>
                       <a>
                         <img
                           src={post.image}
@@ -73,7 +73,7 @@ const Blog = () => {
                       <span>{post.category.name}</span>
                     </div>
                     <h5 className="lui-title">
-                      <Link legacyBehavior href={`/blog-single?blog_id=${post.id}`}>
+                      <Link legacyBehavior href={`/blog-single?id=${post.id}`}>
                         <a>{post.title}</a>
                       </Link>
                     </h5>
@@ -84,7 +84,7 @@ const Blog = () => {
                           : post.description}
                       </p>
                       <div className="readmore">
-                        <Link legacyBehavior href={`/blog-single?blog_id=${post.id}`}>
+                        <Link legacyBehavior href={`/blog-single?id=${post.id}`}>
                           <a className="lnk">Read more</a>
                         </Link>
                       </div>
@@ -138,7 +138,7 @@ const Blog = () => {
                           <ul className="wp-block-latest-posts__list wp-block-latest-posts">
                           {blogPosts.map((post) => (
                             <li>
-                              <Link legacyBehavior href={`/blog-single?blog_id=${post.id}`}>
+                              <Link legacyBehavior href={`/blog-single?id=${post.id}`}>
                                 <a className="wp-block-latest-posts__post-title">
                                   {post.title}
                                 </a>
@@ -156,7 +156,7 @@ const Blog = () => {
                           <ul className="wp-block-categories-list wp-block-categories">
                             {blogPosts.map((post) => (
                             <li className="cat-item cat-item-5">
-                              <Link legacyBehavior href={`/blog-single?blog_id=${post.id}`}>
+                              <Link legacyBehavior href={`/blog-single?id=${post.id}`}>
                                 <a>{post.category.name}</a>
                               </Link>
                             </li>

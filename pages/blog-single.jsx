@@ -8,24 +8,24 @@ import Link from 'next/link';
 const BlogSingle = () => {
   const [blogPost, setBlogPost] = useState(null);
   const router = useRouter();
-  const { blog_id } = router.query; // Retrieve blog_id from router query
+  const { id } = router.query; // Retrieve blog_id from router query
 
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     const fetchBlogPost = async () => {
       try {
-        const response = await axios.get(`${backendUrl}/user/api/blog/${blog_id}/`);
+        const response = await axios.get(`${backendUrl}/user/api/blog/${id}/`);
         setBlogPost(response.data);
       } catch (error) {
         console.error('Error fetching blog post:', error);
       }
     };
 
-    if (blog_id) {
+    if (id) {
       fetchBlogPost();
     }
-  }, [blog_id]);
+  }, [id]);
 
   return (
     <Layout>
