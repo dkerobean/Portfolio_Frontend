@@ -70,7 +70,7 @@ const Blog = () => {
                   </div>
                   <div className="desc">
                     <div className="category lui-subtitle">
-                      <span>November 28, 2021</span>
+                      <span>{post.category.name}</span>
                     </div>
                     <h5 className="lui-title">
                       <Link legacyBehavior href="/blog-single">
@@ -154,26 +154,13 @@ const Blog = () => {
                         <div className="wp-block-group__inner-container">
                           <h2>Categories</h2>
                           <ul className="wp-block-categories-list wp-block-categories">
-                            <li className="cat-item cat-item-2">
-                              <Link legacyBehavior href="/blog-single">
-                                <a>Branding</a>
-                              </Link>
-                            </li>
-                            <li className="cat-item cat-item-3">
-                              <Link legacyBehavior href="/blog-single">
-                                <a>Photography</a>
-                              </Link>
-                            </li>
-                            <li className="cat-item cat-item-4">
-                              <Link legacyBehavior href="/blog-single">
-                                <a>UI Design</a>
-                              </Link>
-                            </li>
+                            {blogPosts.map((post) => (
                             <li className="cat-item cat-item-5">
                               <Link legacyBehavior href="/blog-single">
-                                <a>UX Design</a>
+                                <a>{post.category.name}</a>
                               </Link>
                             </li>
+                            ))}
                           </ul>
                         </div>
                       </div>

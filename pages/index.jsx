@@ -718,7 +718,8 @@ const Index = () => {
                   </div>
                   <div className="desc">
                     <div className="category lui-subtitle">
-                      <span>{new Date(blog.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                    <span>{blog.category.name}</span>
+                      
                     </div>
                     <h5 className="lui-title">
                       <Link legacyBehavior href="/blog-single">
