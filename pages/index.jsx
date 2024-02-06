@@ -26,6 +26,8 @@ const Index = () => {
   const [contact, setContact] = useState([]);
   const [blog, setBlog] = useState([]);
   const [testimonials, setTestimonial] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [project_category, setProjectCategory] = useState([]);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -114,11 +116,32 @@ const Index = () => {
       }
     };
 
+    const fetchProjects = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}/user/api/project/`);
+        setProjects(response.data);
+      } catch (error) {
+        console.error('Error fetching blog data:', error);
+      }
+    };
+
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}/user/api/project-category/`);
+        setProjectCategory(response.data);
+      } catch (error) {
+        console.error('Error fetching blog data:', error);
+      }
+    };
+
+
     fetchProfile();
     fetchServices();
     fetchContact();
     fetchBlog();
     fetchTestimonials();
+    fetchCategories();
+    fetchProjects();
   }, []);
 
 
