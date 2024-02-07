@@ -91,7 +91,7 @@ const PortfolioIsotope = ({ noViewMore }) => {
             >
               <div className="image">
                 <div className="img">
-                  <Link legacyBehavior href="/work-single">
+                   <Link legacyBehavior href={`/work-single?id=${project.id}`}>
                     <a>
                       <img
                         decoding="async"
@@ -117,7 +117,7 @@ const PortfolioIsotope = ({ noViewMore }) => {
                           : project.description}
                   </p>
                 </div>
-                <Link legacyBehavior href="/work-single">
+                 <Link legacyBehavior href={`/work-single?id=${project.id}`}>
                   <a className="lnk">See project</a>
                 </Link>
               </div>

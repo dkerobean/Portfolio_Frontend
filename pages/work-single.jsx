@@ -59,7 +59,7 @@ const WorkSingle = () => {
               data-splitting="words"
               data-animate="active"
             >
-              <span>{project.title}</span>
+              <span>{project.category.name}</span>
             </div>
           </div>
         </div>
@@ -72,13 +72,13 @@ const WorkSingle = () => {
                   <div className="details-label">
                     <span>Year:</span>
                     <strong>
-                      <span>2018</span>
+                      <span>{project.year}</span>
                     </strong>
                   </div>
                   <div className="details-label">
                     <span>Technology:</span>
                     <strong>
-                      <span>Photoshop, XD</span>
+                      <span>{project.technology}</span>
                     </strong>
                   </div>
                   <div className="details-label">
@@ -92,7 +92,7 @@ const WorkSingle = () => {
               <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 align-right">
                 <a
                   target="_blank"
-                  href="https://bslthemes.com"
+                  href={project.url}
                   className="btn scrolla-element-anim-1 scroll-animate"
                   data-animate="active"
                 >
@@ -111,10 +111,10 @@ const WorkSingle = () => {
             <div
               className="img js-parallax"
               style={{
-                backgroundImage:
-                  "url(https://luique.bslthemes.com/wp-content/uploads/2021/11/single4.jpg)",
+                backgroundImage: project && project.image ? `url(${project.image})` : 'none',
               }}
             />
+
           </div>
         </div>
       </div>
@@ -127,25 +127,10 @@ const WorkSingle = () => {
                 <h4>Description</h4>
               </div>
             </div>
-            <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
               <div className="post-content">
                 <p>
-                  It is a long established fact that a reader will be distracted
-                  by the readable content of a page when looking at its layout.
-                  The point of using Lorem Ipsum is that it has a more-or-less
-                  normal distribution of letters, as opposed to using ‘Content
-                  here, content here’, making it look like readable English.
-                </p>
-              </div>
-            </div>
-            <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-              <div className="post-content">
-                <p>
-                  It is a long established fact that a reader will be distracted
-                  by the readable content of a page when looking at its layout.
-                  The point of using Lorem Ipsum is that it has a more-or-less
-                  normal distribution of letters, as opposed to using ‘Content
-                  here, content here’, making it look like readable English.
+                  {project.description}
                 </p>
               </div>
             </div>
@@ -160,7 +145,7 @@ const WorkSingle = () => {
         </div>
       </div>
       {/* Section - Description */}
-      <section className="section section-inner">
+      {/* <section className="section section-inner">
         <div className="container">
           <div className="row">
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -192,9 +177,11 @@ const WorkSingle = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
       {/* Section - Video */}
-      <div className="section section-inner m-video-large">
+      if({project.link2}){
+
+        <div className="section section-inner m-video-large">
         <div className={`video ${videoToggle ? "active" : ""}`}>
           <div
             className="img js-parallax"
@@ -202,11 +189,13 @@ const WorkSingle = () => {
           />
           <iframe
             className="js-video-iframe"
-            src="https://www.youtube.com/embed/Gu6z6kIukgg?showinfo=0&rel=0&autoplay=0"
+            src={project.link2}
           />
           <div className="play" onClick={() => setVideoToggle(true)} />
         </div>
       </div>
+
+      }
       {/* Section - Navigation */}
       <div className="section section-inner m-page-navigation">
         <div className="container">
