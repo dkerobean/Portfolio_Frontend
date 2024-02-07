@@ -1,15 +1,45 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "../src/layouts/Layout";
+import { useRouter } from 'next/router';
+import axios from 'axios'; // Import axios for making HTTP requests
+
 const WorkSingleISotope = dynamic(
   () => import("../src/components/WorkSingleISotope"),
   {
     ssr: false,
   }
 );
+
 const WorkSingle = () => {
   const [videoToggle, setVideoToggle] = useState(false);
+  const [project, setProject] = useState(null);
+  const router = useRouter();
+  const { id } = router.query;
+
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}/user/api/project/${id}/`);
+        setProject(response.data);
+      } catch (error) {
+        console.error('Error fetching project:', error);
+      }
+    };
+
+    if (id) {
+      fetchProject();
+    }
+  }, [id]);
+
+  // Render loading state if project is still loading
+  if (!project) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <Layout pageClassName={"portfolio-template"}>
       {/* Section Started Heading */}
@@ -22,14 +52,14 @@ const WorkSingle = () => {
               data-splitting="words"
               data-animate="active"
             >
-              <span>Zorro</span>
+              <span>{project.title}</span>
             </h1>
             <div
               className="m-subtitle splitting-text-anim-1 scroll-animate"
               data-splitting="words"
               data-animate="active"
             >
-              <span>Branding, Photography</span>
+              <span>{project.title}</span>
             </div>
           </div>
         </div>
@@ -54,7 +84,7 @@ const WorkSingle = () => {
                   <div className="details-label">
                     <span>Categories:</span>
                     <strong>
-                      <span>Photography, Branding</span>
+                      <span>{project.category.name}</span>
                     </strong>
                   </div>
                 </div>
@@ -204,4 +234,5 @@ const WorkSingle = () => {
     </Layout>
   );
 };
+
 export default WorkSingle;

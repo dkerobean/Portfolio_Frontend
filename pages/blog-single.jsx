@@ -8,7 +8,7 @@ import Link from 'next/link';
 const BlogSingle = () => {
   const [blogPost, setBlogPost] = useState(null);
   const router = useRouter();
-  const { id } = router.query; // Retrieve blog_id from router query
+  const { id } = router.query; 
 
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
