@@ -138,7 +138,7 @@ const PortfolioIsotope = ({ noViewMore }) => {
                 className="btn scrolla-element-anim-1 scroll-animate"
                 data-animate="active"
               >
-                <span>View More</span>
+                <span>View All</span>
               </a>
             </Link>
           </div>
