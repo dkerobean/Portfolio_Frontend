@@ -60,6 +60,12 @@ const WorkSingle = () => {
   if (!project) {
     return <p>Loading...</p>;
   }
+
+  // Function to extract YouTube video ID from URL
+  const getYouTubeVideoId = (url) => {
+    const match = url.match(/[?&]v=([^&]*)/);
+    return match && match[1];
+  }
   return (
     <Layout pageClassName={"portfolio-template"}>
       {/* Section Started Heading */}
@@ -207,19 +213,25 @@ const WorkSingle = () => {
               className="img js-parallax"
               style={{ backgroundImage: `url(${project.image2})` }}
             />
-            <iframe
-              className="js-video-iframe"
-              src={project.link2}
+            {/* Embed YouTube video using react-youtube */}
+            <YouTube
+              videoId={getYouTubeVideoId(project.link2)}
+              opts={{ width: '100%', height: '100%' }}
+              onReady={(event) => {
+                // You can perform actions when the video player is ready
+              }}
             />
             <div className="play" onClick={() => setVideoToggle(true)} />
           </div>
         </div>
       )}
 
+
       {/* Section - Navigation */}
       <div className="section section-inner m-page-navigation">
         <div className="container">
           <div className="h-titles h-navs">
+            {/* Link to the next project with a different random project */}
             <Link legacyBehavior href={`/work-single?id=${projectId}`}>
               <a>
                 <span
