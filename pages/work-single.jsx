@@ -3,7 +3,8 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import Layout from "../src/layouts/Layout";
 import { useRouter } from 'next/router';
-import axios from 'axios'; // Import axios for making HTTP requests
+import axios from 'axios';
+import YouTube from 'react-youtube'; // Import react-youtube
 
 const WorkSingleISotope = dynamic(
   () => import("../src/components/WorkSingleISotope"),
@@ -15,6 +16,8 @@ const WorkSingleISotope = dynamic(
 const WorkSingle = () => {
   const [videoToggle, setVideoToggle] = useState(false);
   const [project, setProject] = useState(null);
+  const [randomProjectName, setRandomProjectName] = useState('');
+  const [projectId, setProjectId] = useState('');
   const router = useRouter();
   const { id } = router.query;
 
@@ -35,11 +38,28 @@ const WorkSingle = () => {
     }
   }, [id]);
 
-  // Render loading state if project is still loading
+  useEffect(() => {
+    const fetchAllProjects = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}/user/api/project/`);
+        const projects = response.data.filter(proj => proj.id !== project?.id); // Filter out current project
+        const randomIndex = Math.floor(Math.random() * projects.length);
+        const randomProject = projects[randomIndex];
+        setRandomProjectName(randomProject.title);
+        setProjectId(randomProject.id);
+      } catch (error) {
+        console.error('Error fetching all projects:', error);
+      }
+    };
+
+    if (project) {
+      fetchAllProjects();
+    }
+  }, [project]);
+
   if (!project) {
     return <p>Loading...</p>;
   }
-
   return (
     <Layout pageClassName={"portfolio-template"}>
       {/* Section Started Heading */}
@@ -179,28 +199,28 @@ const WorkSingle = () => {
         </div>
       </section> */}
       {/* Section - Video */}
-      if({project.link2}){
 
+      {project.link2 && (
         <div className="section section-inner m-video-large">
-        <div className={`video ${videoToggle ? "active" : ""}`}>
-          <div
-            className="img js-parallax"
-            style={{ backgroundImage: "url(assets/images/blog9.jpg)" }}
-          />
-          <iframe
-            className="js-video-iframe"
-            src={project.link2}
-          />
-          <div className="play" onClick={() => setVideoToggle(true)} />
+          <div className={`video ${videoToggle ? "active" : ""}`}>
+            <div
+              className="img js-parallax"
+              style={{ backgroundImage: `url(${project.image2})` }}
+            />
+            <iframe
+              className="js-video-iframe"
+              src={project.link2}
+            />
+            <div className="play" onClick={() => setVideoToggle(true)} />
+          </div>
         </div>
-      </div>
+      )}
 
-      }
       {/* Section - Navigation */}
       <div className="section section-inner m-page-navigation">
         <div className="container">
           <div className="h-titles h-navs">
-            <Link legacyBehavior href="/work-single">
+            <Link legacyBehavior href={`/work-single?id=${projectId}`}>
               <a>
                 <span
                   className="nav-arrow scrolla-element-anim-1 scroll-animate"
@@ -213,7 +233,7 @@ const WorkSingle = () => {
                   data-splitting="chars"
                   data-animate="active"
                 >
-                  <span>Gooir</span>
+                  <span>{randomProjectName}</span>
                 </span>
               </a>
             </Link>
