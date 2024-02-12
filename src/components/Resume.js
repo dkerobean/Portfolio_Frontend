@@ -60,7 +60,7 @@ const Resume = () => {
   return (
     <section className="lui-section lui-gradient-bottom" id="resume-section">
       {/* Heading */}
-      <div className="lui-heading">
+      {/* <div className="lui-heading">
         <div className="container">
           <div className="m-titles align-center">
             <h2
@@ -82,10 +82,10 @@ const Resume = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* History */}
       <div className="v-line v-line-left">
-        <div className="container">
+        {/* <div className="container">
           <div className="row">
             <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
               <h5
@@ -188,7 +188,7 @@ const Resume = () => {
           <div className="lui-bgtitle">
             <span> History </span>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

@@ -167,7 +167,7 @@ const WorkSingle = () => {
       <div className="section section-inner">
         <div className="container">
           {/* Section Gallery */}
-          <WorkSingleISotope />
+          {/* <WorkSingleISotope /> */}
         </div>
       </div>
       {/* Section - Description */}

@@ -137,30 +137,10 @@ const Header = () => {
                               <a
                                 className="splitting-text-anim-2"
                                 data-splitting="chars"
-                                href="/#resume-section"
+                                href="/#testimonials-section"
                                 onClick={() => linkClick()}
-                              >
-                                Resume
-                              </a>
-                            </li>
-                            <li className="menu-item">
-                              <a
-                                className="splitting-text-anim-2"
-                                data-splitting="chars"
-                                href="/#testimonials-sec
-                                onClick={() => linkClick()}tion"
                               >
                                 Testimonials
-                              </a>
-                            </li>
-                            <li className="menu-item">
-                              <a
-                                className="splitting-text-anim-2"
-                                data-splitting="chars"
-                                href="/#pricing-section"
-                                onClick={() => linkClick()}
-                              >
-                                Pricing
                               </a>
                             </li>
                             <li className="menu-item">
@@ -183,7 +163,7 @@ const Header = () => {
                                 Contact
                               </a>
                             </li>
-                            <li
+                            {/* <li
                               className={`menu-item menu-item-has-children has-children ${
                                 pageToggle ? "opened" : "closed"
                               }`}
@@ -255,7 +235,7 @@ const Header = () => {
                                   </Link>
                                 </li>
                               </ul>
-                            </li>
+                            </li> */}
                           </ul>
                         </div>
                         {/* social */}

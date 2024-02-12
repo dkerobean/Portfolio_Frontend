@@ -29,6 +29,7 @@ const Index = () => {
   const [projects, setProjects] = useState([]);
   const [project_category, setProjectCategory] = useState([]);
   const [skills, setSkills] = useState([]);
+  const [cv, setCV] = useState([]);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -144,6 +145,15 @@ const Index = () => {
       }
     };
 
+    const fetchCV = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}/user/api/cv/`);
+        setCV(response.data[0]);
+      } catch (error) {
+        console.error('Error fetching blog data:', error);
+      }
+    };
+
 
     fetchProfile();
     fetchServices();
@@ -153,6 +163,7 @@ const Index = () => {
     fetchCategories();
     fetchProjects();
     fetchSkills();
+    fetchCV();
   }, []);
 
 
@@ -216,7 +227,7 @@ const Index = () => {
                 <div className="bts">
                   <a
                     target="_blank"
-                    href="https://drive.google.com/"
+                    href={cv.url}
                     className="btn"
                   >
                     <span>Download CV</span>
@@ -785,7 +796,8 @@ const Index = () => {
                             * Accept the terms and conditions.
                           </div>
                           <button type="submit" className="btn">
-                          Send Message</button>
+                          <span>Send Message</span>
+                          </button>
                         </div>
                       </div>
                     </form>
