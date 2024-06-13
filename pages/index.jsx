@@ -62,6 +62,8 @@ const Index = () => {
       if (response.ok) {
         // Success, show success message
         toast.success(`Hi ${formData.name}! Your message has been sent successfully. I'll get back to you soon! 🚀`);
+        // Reset form data
+        resetForm();
       } else {
         // Handle error response
         toast.error('Failed to send message. Please try again.');
@@ -71,6 +73,16 @@ const Index = () => {
       toast.error('An error occurred. Please try again later.');
     }
   }
+
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      email: '',
+      subject: '',
+      message: '',
+    });
+  };
+
 
   useEffect(() => {
     const fetchProfile = async () => {
