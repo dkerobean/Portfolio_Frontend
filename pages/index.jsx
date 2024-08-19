@@ -88,7 +88,7 @@ const Index = () => {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(`${backendUrl}/user/api/profile/`);
-        setProfile(response.data[0] || {});
+        setProfile(response.data[0]);
       } catch (error) {
         console.error('Error fetching profile data:', error);
       }
@@ -176,7 +176,7 @@ const Index = () => {
     fetchProjects();
     fetchSkills();
     fetchCV();
-    console.log(services);
+    console.log(profile);
   }, []);
 
 
