@@ -1,39 +1,45 @@
-import Link from "next/link";
-import Layout from "../src/layouts/Layout";
+import Link from 'next/link';
+import Layout from '../src/layouts/Layout';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import DOMPurify from 'dompurify';
 
 const Blog = () => {
-   const [blogPosts, setBlogPosts] = useState([]);
-   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  const fetchBlogPosts = async (page = 1) => {
+    try {
+      const response = await axios.get(`${backendUrl}/user/api/blog/?page=${page}`);
+      setBlogPosts(response.data.results);
+      setTotalPages(Math.ceil(response.data.count / 3));
+    } catch (error) {
+      console.error('Error fetching blog posts:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchBlogPosts = async () => {
-      try {
-        const response = await axios.get(`${backendUrl}/user/api/blog/`);
-        setBlogPosts(response.data);
-            console.log(response.data);
-      } catch (error) {
-        console.error('Error fetching blog posts:', error);
-      }
-    };
+    fetchBlogPosts(currentPage);
+  }, [currentPage]);
 
-    fetchBlogPosts();
-  }, []);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <Layout>
       {/* Section Started Heading */}
       <section className="section section-inner started-heading">
         <div className="container">
-          {/* Heading */}
           <div className="m-titles align-center">
             <h1
               className="m-title splitting-text-anim-1 scroll-animate"
               data-splitting="words"
               data-animate="active"
             >
-              <span> Our Blogs </span>
+              <span> Blog </span>
             </h1>
             <div
               className="m-subtitle splitting-text-anim-1 scroll-animate"
@@ -45,73 +51,84 @@ const Blog = () => {
           </div>
         </div>
       </section>
+
       {/* Section - Blog */}
       <div className="section section-inner m-archive">
         <div className="container">
           <div className="row">
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-8">
-              {/* Blog Items */}
               <div className="articles-container">
-              {blogPosts.map((post) => (
-                <div
-                  className="archive-item scrolla-element-anim-1 scroll-animate"
-                  data-animate="active"
-                >
-                  <div className="image">
-                    <Link legacyBehavior href={`/blog-single?id=${post.id}`}>
-                      <a>
-                        <img
-                          src={post.image}
-                          alt="Usability Secrets to Create Better Interfaces"
-                          loading="lazy"
-                        />
-                      </a>
-                    </Link>
-                  </div>
-                  <div className="desc">
-                    <div className="category lui-subtitle">
-                      <span>{post.category.name}</span>
-                    </div>
-                    <h5 className="lui-title">
+                {blogPosts.map((post) => (
+                  <div
+                    key={post.id}
+                    className="archive-item scrolla-element-anim-1 scroll-animate"
+                    data-animate="active"
+                  >
+                    <div className="image">
                       <Link legacyBehavior href={`/blog-single?id=${post.id}`}>
-                        <a>{post.title}</a>
+                        <a>
+                          <img
+                            src={post.image}
+                            alt={post.title}
+                            loading="lazy"
+                          />
+                        </a>
                       </Link>
-                    </h5>
-                    <div className="lui-text">
-                      <p>
-                        {post.description.length > 50
-                          ? `${post.description.slice(0, 200)}...`
-                          : post.description}
-                      </p>
-                      <div className="readmore">
+                    </div>
+                    <div className="desc">
+                      <div className="category lui-subtitle">
+                        <span>{post.category.name}</span>
+                      </div>
+                      <h5 className="lui-title">
                         <Link legacyBehavior href={`/blog-single?id=${post.id}`}>
-                          <a className="lnk">Read more</a>
+                          <a>{post.title}</a>
                         </Link>
+                      </h5>
+                      <div className="lui-text">
+                        <div
+                          className="post-excerpt"
+                          dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(post.description.slice(0, 200) + (post.description.length > 200 ? '...' : ''))
+                          }}
+                        />
+                        <div className="readmore">
+                          <Link legacyBehavior href={`/blog-single?id=${post.id}`}>
+                            <a className="lnk">Read more</a>
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))};
+                ))}
               </div>
               <div className="pager">
-                <span className="page-numbers current">1</span>
-                <a className="page-numbers" href="#">
-                  2
-                </a>
-                <a className="next page-numbers" href="#">
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <button
+                    key={index}
+                    className={`page-numbers ${currentPage === index + 1 ? 'current' : ''}`}
+                    onClick={() => handlePageChange(index + 1)}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+                <button
+                  className="next page-numbers"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage >= totalPages}
+                >
                   Next
-                </a>
+                </button>
               </div>
             </div>
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-              {/* sidebar */}
+              {/* Sidebar */}
               <div
                 className="col__sedebar scrolla-element-anim-1 scroll-animate"
                 data-animate="active"
               >
                 <div className="content-sidebar">
                   <aside className="widget-area">
-                    <div className="widget widget_block widget_search">
+                    {/* <div className="widget widget_block widget_search">
                       <form
                         onSubmit={(e) => e.preventDefault()}
                         className="wp-block-search"
@@ -119,7 +136,7 @@ const Blog = () => {
                         <div className="wp-block-search__inside-wrapper">
                           <input
                             type="search"
-                            className="wp-block-search__input wp-block-search__input"
+                            className="wp-block-search__input"
                             defaultValue=""
                           />
                           <button
@@ -130,21 +147,21 @@ const Blog = () => {
                           </button>
                         </div>
                       </form>
-                    </div>
+                    </div> */}
                     <section className="widget widget_block">
                       <div className="wp-block-group">
                         <div className="wp-block-group__inner-container">
                           <h2>Recent Posts</h2>
-                          <ul className="wp-block-latest-posts__list wp-block-latest-posts">
-                          {blogPosts.map((post) => (
-                            <li>
-                              <Link legacyBehavior href={`/blog-single?id=${post.id}`}>
-                                <a className="wp-block-latest-posts__post-title">
-                                  {post.title}
-                                </a>
-                              </Link>
-                            </li>
-                          ))}
+                          <ul className="wp-block-latest-posts__list">
+                            {blogPosts.map((post) => (
+                              <li key={post.id}>
+                                <Link legacyBehavior href={`/blog-single?id=${post.id}`}>
+                                  <a className="wp-block-latest-posts__post-title">
+                                    {post.title}
+                                  </a>
+                                </Link>
+                              </li>
+                            ))}
                           </ul>
                         </div>
                       </div>
@@ -153,13 +170,13 @@ const Blog = () => {
                       <div className="is-layout-flow wp-block-group">
                         <div className="wp-block-group__inner-container">
                           <h2>Categories</h2>
-                          <ul className="wp-block-categories-list wp-block-categories">
+                          <ul className="wp-block-categories-list">
                             {blogPosts.map((post) => (
-                            <li className="cat-item cat-item-5">
-                              <Link legacyBehavior href={`/blog-single?id=${post.id}`}>
-                                <a>{post.category.name}</a>
-                              </Link>
-                            </li>
+                              <li key={post.category.id} className="cat-item">
+                                <Link legacyBehavior href={`/blog-single?id=${post.id}`}>
+                                  <a>{post.category.name}</a>
+                                </Link>
+                              </li>
                             ))}
                           </ul>
                         </div>
@@ -170,14 +187,10 @@ const Blog = () => {
               </div>
             </div>
           </div>
-          <div className="v-line-left v-line-top">
-            <div className="v-line-block">
-              <span />
-            </div>
-          </div>
         </div>
       </div>
     </Layout>
   );
 };
+
 export default Blog;

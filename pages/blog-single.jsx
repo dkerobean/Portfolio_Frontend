@@ -8,7 +8,7 @@ import Link from 'next/link';
 const BlogSingle = () => {
   const [blogPost, setBlogPost] = useState(null);
   const router = useRouter();
-  const { id } = router.query; 
+  const { id } = router.query;
 
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -92,12 +92,10 @@ const BlogSingle = () => {
               <div className="description">
                 {blogPost && (
                   <div
-                    className="post-content scrolla-element-anim-1 scroll-animate"
-                    data-animate="active"
-                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blogPost.description) }}
-                  >
-
-                  </div>
+                      className="post-content scrolla-element-anim-1 scroll-animate"
+                      data-animate="active"
+                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blogPost.description) }}
+                    />
                 )}
               </div>
               {/* Comments */}

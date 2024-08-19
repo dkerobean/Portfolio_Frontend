@@ -502,7 +502,7 @@ const Index = () => {
               >
                 <span>
                   {" "}
-                  what <b>Customers Say</b>
+                  what <b>Clients Say</b>
                 </span>
               </div>
             </div>
