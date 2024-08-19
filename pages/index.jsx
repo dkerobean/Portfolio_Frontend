@@ -88,7 +88,7 @@ const Index = () => {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(`${backendUrl}/user/api/profile/`);
-        setProfile(response.data[0]);
+        setProfile(response.data[0] || {});
       } catch (error) {
         console.error('Error fetching profile data:', error);
       }
@@ -106,7 +106,7 @@ const Index = () => {
     const fetchContact = async () => {
       try {
         const response = await axios.get(`${backendUrl}/user/api/contact/`);
-        setContact(response.data[0]);
+        setContact(response.data[0] || {});
       } catch (error) {
         console.error('Error fetching contact data:', error);
       }
@@ -115,7 +115,7 @@ const Index = () => {
     const fetchBlog = async () => {
       try {
         const response = await axios.get(`${backendUrl}/user/api/blog/`);
-        setBlog(response.data);
+        setBlog(response.data || {});
       } catch (error) {
         console.error('Error fetching blog data:', error);
       }
@@ -124,7 +124,7 @@ const Index = () => {
     const fetchTestimonials = async () => {
       try {
         const response = await axios.get(`${backendUrl}/user/api/testimonials/`);
-        setTestimonial(response.data);
+        setTestimonial(response.data || []);
       } catch (error) {
         console.error('Error fetching blog data:', error);
       }
@@ -133,7 +133,7 @@ const Index = () => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get(`${backendUrl}/user/api/project/`);
-        setProjects(response.data);
+        setProjects(response.data || {});
       } catch (error) {
         console.error('Error fetching blog data:', error);
       }
@@ -142,7 +142,7 @@ const Index = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(`${backendUrl}/user/api/project-category/`);
-        setProjectCategory(response.data);
+        setProjectCategory(response.data || {});
       } catch (error) {
         console.error('Error fetching blog data:', error);
       }
@@ -151,7 +151,7 @@ const Index = () => {
     const fetchSkills = async () => {
       try {
         const response = await axios.get(`${backendUrl}/user/api/skills/`);
-        setSkills(response.data);
+        setSkills(response.data || {});
       } catch (error) {
         console.error('Error fetching blog data:', error);
       }
@@ -160,7 +160,7 @@ const Index = () => {
     const fetchCV = async () => {
       try {
         const response = await axios.get(`${backendUrl}/user/api/cv/`);
-        setCV(response.data[0]);
+        setCV(response.data[0] || {});
       } catch (error) {
         console.error('Error fetching blog data:', error);
       }
@@ -176,6 +176,7 @@ const Index = () => {
     fetchProjects();
     fetchSkills();
     fetchCV();
+    console.log(services);
   }, []);
 
 
@@ -187,7 +188,6 @@ const Index = () => {
         id="started-section"
       >
         <div className="container">
-          {/* Hero Started */}
           <div className="lui-started v-line v-line-left">
             <div className="section hero-started">
               <div
@@ -207,31 +207,31 @@ const Index = () => {
                     data-animate="active"
                   >
                     <span>
-                      <b>{profile.first_name}</b>Amenyo{" "}
+                      <b>{profile.first_name ? profile.first_name : "Name"}</b>Amenyo{" "}
                     </span>
                   </h1>
                   <div className="label lui-subtitle">
                     {" "}
-                    I am <strong>{profile.title}</strong>
+                    I am <strong>{profile.title ? profile.title : "Title"}</strong>
                   </div>
                 </div>
                 <div className="description">
                   <div>
                     <p>
-                      {profile.about_me}
+                      {profile.about_me ? profile.about_me : "About me description here"}
                     </p>
                   </div>
                   <div className="social-links">
-                    <a target="_blank" rel="nofollow" href={contact.twitter}>
+                    <a target="_blank" rel="nofollow" href={contact.twitter ? contact.twitter : "#"}>
                       <i aria-hidden="true" className="fab fa-twitter" />
                     </a>
-                    <a target="_blank" rel="nofollow" href={contact.linkedin}>
+                    <a target="_blank" rel="nofollow" href={contact.linkedin ? contact.linkedin : "#"}>
                       <i aria-hidden="true" className="fab fa-linkedin" />
                     </a>
-                    <a target="_blank" rel="nofollow" href={contact.github}>
+                    <a target="_blank" rel="nofollow" href={contact.github ? contact.github : "#"}>
                       <i aria-hidden="true" className="fab fa-github" />
                     </a>
-                    <a target="_blank" rel="nofollow" href={contact.insstagram}>
+                    <a target="_blank" rel="nofollow" href={contact.instagram ? contact.instagram : "#"}>
                       <i aria-hidden="true" className="fab fa-instagram" />
                     </a>
                   </div>
@@ -239,7 +239,7 @@ const Index = () => {
                 <div className="bts">
                   <a
                     target="_blank"
-                    href={cv.url}
+                    href={cv.url ? cv.url : "#"}
                     className="btn"
                   >
                     <span>Download CV</span>
@@ -256,8 +256,8 @@ const Index = () => {
               >
                 <img
                   decoding="async"
-                  src={profile.image}
-                  alt="<b>{profile.first_name}</b> Amenyo"
+                  src={profile.image ? profile.image : "/path/to/default/image.jpg"}
+                  alt={`${profile.first_name ? profile.first_name : "Name"} Amenyo`}
                 />
                 <span className="circle circle-1" />
                 <span
@@ -275,31 +275,10 @@ const Index = () => {
                 <span
                   className="circle img-3"
                   style={{
-                    backgroundImage: "url(assets/images/pat-2.png)",
+                    backgroundImage: "url(assets/images/pat-3.png)",
                   }}
                 />
-                <div className="info-list">
-                  <ul>
-                    <li>
-                      <span className="num">
-                        {profile.experience} <strong>+</strong>
-                      </span>
-                      <span className="value">
-                        Years of <strong>Experience</strong>
-                      </span>
-                    </li>
-                    <li>
-                      <span className="num">{profile.completed_project}</span>
-                      <span className="value">
-                        Completed <strong>Projects</strong>
-                      </span>
-                    </li>
-                  </ul>
-                </div>
               </div>
-            </div>
-            <div className="lui-bgtitle">
-              <span> {profile.title} </span>
             </div>
           </div>
         </div>
@@ -345,15 +324,15 @@ const Index = () => {
             <SwiperSlide key={index} className="swiper-slide">
               <div className="services-item">
                 <div className="lui-subtitle">
-                  <span> {service.category.name} </span>
+                  <span> {service.category.name ? service.category.name : "category name"} </span>
                 </div>
                 <div className="icon" />
                 <h5 className="lui-title">
-                  <span> {service.title} </span>
+                  <span> {service.title ? service.title : "service title"} </span>
                 </h5>
                 <div className="lui-text">
                   <div>
-                    {service.description}
+                    {service.description ? service.description : "description"}
                   </div>
                 </div>
                 {/* <a href={service.link} className="lnk">
@@ -415,7 +394,7 @@ const Index = () => {
                     data-animate="active"
                   >
                     <h6 className="name">
-                      <span> {skill.name} </span>
+                      <span> {skill.name ? skill.name : "name"} </span>
                     </h6>
                     <div className="text">
                       <div>
@@ -523,7 +502,7 @@ const Index = () => {
                   <div className="image">
                     <img
                       decoding="async"
-                      src={testimonial.image}
+                      src={testimonial.image ? testimonial.image : "#"}
                       alt="Paul Freeman"
                     />
                     <div className="icon">
