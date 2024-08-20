@@ -14,7 +14,7 @@ const Blog = () => {
     try {
       const response = await axios.get(`${backendUrl}/user/api/blog/?page=${page}`);
       setBlogPosts(response.data.results);
-      setTotalPages(Math.ceil(response.data.count / 3));
+      setTotalPages(Math.ceil(response.data.count / 5));
     } catch (error) {
       console.error('Error fetching blog posts:', error);
     }
